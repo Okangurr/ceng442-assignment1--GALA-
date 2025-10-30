@@ -7,9 +7,9 @@ GitHub Repository: https://github.com/<org-or-user>/ceng442-assignment1-<groupna
 
 Group Members:
 
-<Full Name 1> 
+<Okan Rıdvan Gür> 
 
-<Full Name 2> 
+<Enes Geldi> 
 
 # 1. Data & Goal
 
