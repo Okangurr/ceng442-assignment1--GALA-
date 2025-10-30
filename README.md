@@ -99,7 +99,7 @@ The cleaned files were merged to form corpus_all.txt, where each line begins wit
 | *ulduz* | W2V (reviews) | verəm, verdimki, vercem |
 |  | FT (reviews) | ulduzz, ulduza, ulduzu, ulduzdu |
 
-> 📈 *Observation:*  
+>  *Observation:*  
 > FastText successfully groups morphological variants (e.g., “yaxşıı”, “yaxş”),  
 > while Word2Vec yields semantically coherent neighbors (“RATING_POS”, “mükəmməl”).  
 > This confirms FastText’s advantage in *subword-level generalization*,  
@@ -143,12 +143,36 @@ The cleaned files were merged to form corpus_all.txt, where each line begins wit
 - Increasing epochs and negative samples improved *semantic margin* and *vector quality*.  
 - Domain-aware fine-tuning produced embeddings that better reflect *real usage variation* across datasets.
 
->  *Conclusion:*  
-> Compared to the baseline, the enhanced pipeline achieved *higher lexical coverage*,  
-> *better synonym separation, and **cleaner semantic clustering*.  
-> Domain-aware preprocessing and fine-tuned training significantly increased embedding robustness,  
-> especially for morphologically rich and noisy Azerbaijani data.
----
+ ### Conclusion (Detailed):
+  
+ The enhanced NLP pipeline developed in this study demonstrated clear and measurable improvements  
+ over the baseline implementation, both in *semantic coherence* and *morphological generalization*.  
+  
+ By introducing advanced preprocessing components — including extended emoji normalization,  
+ hashtag decomposition, deasciification, negation scope tagging, and optional stemming —  
+ the model was able to capture linguistic nuances unique to Azerbaijani more effectively.  
+ This produced cleaner and semantically consistent token representations,  
+ particularly visible in *synonym–antonym separation* and *nearest neighbor clusters*.  
+  
+ The integration of *domain-aware processing* (news, social, reviews, general) further enhanced  
+ contextual precision. Domain-specific normalization (PRICE, RATING_POS, RATING_NEG)  
+ allowed the embeddings to internalize contextual meaning — e.g., “bahalı” and “ucuz”  
+ were clustered differently across review vs. news corpora, reflecting real-world sentiment usage.  
+  
+ *FastText* consistently outperformed *Word2Vec* in morphology-rich or noisy text (social/review data),  
+ thanks to its subword-based modeling. However, *Word2Vec* remained stronger in semantically  
+ stable domains (news/general), showing clearer concept-level relationships.  
+  
+ Additionally, *fine-tuned (adaptive) training* led to incremental gains by refining shared embeddings  
+ according to each domain’s linguistic style. The improvement in *lexical coverage (≈0.96–1.00)* and  
+ the emergence of *positive separation margins* (ΔSyn−Ant > 0) confirm the overall robustness  
+ of this approach.  
+  
+ In summary, the enhanced pipeline not only achieved superior numerical metrics  
+ but also delivered *qualitatively richer, domain-sensitive, and morphologically resilient embeddings*.  
+ These results demonstrate that even modest architectural modifications — when combined with  
+ careful preprocessing and domain adaptation — can substantially improve representation learning  
+ in low-resource, morphologically complex languages such as Azerbaijani.
 
 ###  Key Takeaways
 
@@ -162,15 +186,4 @@ The cleaned files were merged to form corpus_all.txt, where each line begins wit
 
 ---
 
-###  Future Work
-- Integrate *domain-specific gold-standard synonym/antonym pairs* for quantitative evaluation.  
-- Experiment with *transformer-based Azerbaijani embeddings (e.g., BERT, RoBERTa)*.  
-- Apply embeddings to downstream tasks: *sentiment classification, **topic modeling, and **text clustering*.  
-- Explore *cross-lingual fine-tuning* between Turkish and Azerbaijani corpora to enhance performance.
 
----
-
->  Final Verdict:  
-> Extended training and domain-aware fine-tuning produced *semantically coherent and context-rich embeddings* for Azerbaijani.  
-> FastText excels in handling morphological variety, while Word2Vec maintains semantic precision —  
-> together confirming the power of *domain-aware embedding design* in low-resource languages.
