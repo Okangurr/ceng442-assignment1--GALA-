@@ -11,33 +11,16 @@ Group Members:
 
 <Full Name 2> 
 
-<Full Name 3> 
-
-<Full Name 4> 
-
-1. Data & Goal 
+##1. Data & Goal 
 
 The primary goal of this project is to clean 5 Azerbaijani text datasets sourced from various origins , standardize them for sentiment analysis , and train domain-aware Word2Vec and FastText word embedding models on this cleaned, combined corpus.
 
-
-
-
-
 The 5 main datasets used are:
 
-
 labeled-sentiment.xlsx (3-class) 
-
-
 test_1_.xlsx (binary) 
-
-
 train_3_.xlsx (binary) 
-
-
 train-00000-of-00001.xlsx (3-class) 
-
-
 merged_dataset_CSV_1_.xlsx (binary) 
 
 The project supports both binary and tri-class labeling schemes. The map_sentiment_value function converts these labels into a standard sentiment_value (float) column, mapping them as Negative = 0.0, Neutral = 0.5, and Positive = 1.0.
