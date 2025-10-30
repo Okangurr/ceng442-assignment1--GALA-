@@ -11,7 +11,7 @@ Group Members:
 
 <Full Name 2> 
 
-##1. Data & Goal ##
+# 1. Data & Goal
 
 The primary goal of this project is to clean 5 Azerbaijani text datasets sourced from various origins , standardize them for sentiment analysis , and train domain-aware Word2Vec and FastText word embedding models on this cleaned, combined corpus.
 
