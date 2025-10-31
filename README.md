@@ -1,20 +1,19 @@
 #  Azerbaijani Domain-Aware Word Embedding Project
 
-This project builds *domain-aware Word2Vec and FastText embeddings* for Azerbaijani text using a complete custom preprocessing pipeline.  
-It demonstrates how *text normalization, **morphological stemming, and **domain-specific fine-tuning* affect semantic quality.
-
 ---
 
-## 1️ Overview
+## 1️-Data & Goal:
 
-- *Goal:* Train and evaluate domain-aware embeddings (Word2Vec & FastText) for Azerbaijani text.
+- *Goal:* The purpose of this NLP project is to learn and properly understand the preprocessing pipeline for Azerbaijani texts and sentences, and to build domain-aware Word2Vec and FastText models. The project also aims to observe how the Lexical Coverage, Synonym, Antonym, and Separation scores of these models change based on the additional functions we implement in our preprocessing flow (e.g., negation scope, stemming, lemmatization, etc.), the hyperparameter tuning during model training (e.g., epochs, negative, vector-size, etc.), and domain-awareness. Ultimately, the objective is to fully comprehend the entire Preprocessing-Train-Analysis pipeline of an NLP project.
+  
 - *Datasets:* 5 corpora → labeled-sentiment, test__1_, train__3_, train-00000-of-00001, merged_dataset_CSV__1_.
-- *Pipeline:* Cleaning, normalization, stemming, domain detection → corpus building → embedding training → evaluation.
+- *Pipeline:* Cleaning, normalization, stemming-lemmatization, domain detection → corpus building → embedding training → evaluation.
 - *Domains:* news, social, reviews, general.
+- Why keep neutral=0.5 : The reason some texts in the datasets are assigned trinary values of 1.0, 0.5, and 0.0 is that we want our models to perform sentiment analysis. When doing this, we proceed by analyzing the words of the sentence (using tokenization). Consequently, some sentences can be positive sentiment, which equals 1.0, while some sentences can be negative, taking the value 0.0. However, some sentences may be neither positive nor negative (for example: "yaxşı amma bahalı," which means "good but expensive"). Sentences like these are considered neutral and are given a sentiment_value of 0.5.
 
 ---
 
-## 2️ Preprocessing Pipeline Summary
+## 2️ Preprocessing & Mini Challenges
 
 Each raw dataset was cleaned using preprocess.py with the following options:
 
@@ -22,10 +21,12 @@ Each raw dataset was cleaned using preprocess.py with the following options:
 python scripts/preprocess.py process \
   --in data/data_raw/<file>.xlsx \
   --out data/data_clean/<file>.xlsx \
-  --text-col text --label-col sentiment --scheme tri \
+  --text-col text --label-col sentiment --scheme <tri & bin> \
   --use-stemming --drop-stops --strict-filter --minlen 2
 ```
-## Active Components
+In the script above, you need to write 'tri' or 'bin' for the 'scheme' parameter, according to the Excel output.
+
+## Rules We Apply in Preprocessing
 
 | Step | Description |
 |:--|:--|
@@ -33,16 +34,26 @@ python scripts/preprocess.py process \
 | Emoji Mapping | Expanded to cover 50+ emojis across positive, negative, and neutral categories. |
 | Hashtag Splitter | Splits hashtags by CamelCase, underscores `_`, and numeric transitions (e.g., `#CoxYaxsiFilm` → Cox Yaxsi Film). |
 | Deasciify & Slang Normalization | Converts Latinized or slang variants (e.g., `yaxsi` → `yaxşı`, `cox` → `çox`). |
-| Negation Scope Tagging | Adds `_NEG` suffix to words affected by negations (`deyil`, `yox`, `qətiyyən`). |
-| Stopword Filtering | Removes over 100 Azerbaijani function words while preserving negations for sentiment accuracy. |
+| Negation Scope Tagging | The `_NEG` suffix is added  (in a very detailed way) to negative words (`deyil`, `yox`, `qətiyyən`). |
+| Stopword Filtering | Removes over 100 Azerbaijani function words while preserving negations for sentiment accuracy.Because in some sentences, these stopwords may contain emotions, contrary to what they normally do.|
 | Snowball Stemming | Applies the Turkish Snowball Stemmer, adapted for Azerbaijani morphology to unify word variants. |
-| Strict Filter | Keeps only valid Azerbaijani alphabet tokens and special placeholders (`<NUM>`, `URL`, `EMAIL`, etc.). |
+| Strict Filter | Keeps only valid Azerbaijani alphabet tokens and special placeholders (`<NUM>`, `URL`, `EMAIL`,`PHONE`,`USER`,`EMO_POS/EMO_NEG` `RATING_POS/NEG`, `STARS_\d_5`, `PRICE`). |
+
+> We perform the cleaning of empty data (null, whitespace-only) or duplicate data as follows:
+
+Inside process_file(), we clean the unnecessary index columns (we are actually cleaning an empty column named "Unnamed: 0" that was in one Excel file). And, by using dropna(subset=[text_col]), we delete rows in the text column that are NaN or None.
+
+    .str.strip() → We remove leading/trailing whitespaces.
+
+    .str.len() > 0 → We also filter out rows that consist only of spaces.
+
+    drop_duplicates(subset=[text_col]) → If the same text exists more than once, we keep only one.
+
+>  As a result of all these steps, the lexical coverage rate reached approximately 97-98%. The number of OOV tokens has decreased significantly, which shows us how important preprocessing steps are for Lexical Coverage.
+
+By combining the cleaned Excel files, we created corpus_all.txt, each line of which starts with the domain tag (domsocial, domnews, etc.). We will use this corpus_all.txt when training our models.l.
 
 
->  All preprocessing steps together improved lexical coverage (~97%) and significantly reduced OOV tokens.
-
-Outcome: High lexical coverage (≈97%), reduced OOV, and cleaner sentence-level tokenization.
-The cleaned files were merged to form corpus_all.txt, where each line begins with a domain tag like domsocial.
 
 ###  3️ Training Configurations
 
