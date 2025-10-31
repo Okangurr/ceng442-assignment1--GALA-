@@ -15,17 +15,6 @@
 
 ## 2️ Preprocessing & Mini Challenges
 
-Each raw dataset was cleaned using preprocess.py with the following options:
-
-```bash
-python scripts/preprocess.py process \
-  --in data/data_raw/<file>.xlsx \
-  --out data/data_clean/<file>.xlsx \
-  --text-col text --label-col sentiment --scheme <tri & bin> \
-  --use-stemming --drop-stops --strict-filter --minlen 2
-```
-In the script above, you need to write 'tri' or 'bin' for the 'scheme' parameter, according to the Excel output.
-
 ## Rules We Apply in Preprocessing
 
 | Step | Description |
@@ -186,8 +175,130 @@ By doing this, we tried to look at how the model learns differently, and how fin
 - Word2Vec captured *cleaner semantic relations*, especially when domain-filtered.  
 - Increasing epochs and negative samples improved *semantic margin* and *vector quality*.  
 - Domain-aware fine-tuning produced embeddings that better reflect *real usage variation* across datasets.
+### Reproducibility:
+1) Environment and Versions:
+  - Pyhton:3.11.X
+  - OS: macOS
+2)Setup .venv & directory:
+      cd /path/to/az_nlp_assignment2
+      
+      python3.11 -m venv .venv
+      source .venv/bin/activate      # Windows: .venv\Scripts\activate
+      
+      # 2) Bağımlılıklar
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      
+      python -c "import nltk; nltk.download('snowball_data')"
+3)Project Documentation(should be):
+  
+    ├─ data/
+    │  ├─ data_raw/      # raw file (.xlsx / .csv / .json)
+    │  └─ data_clean/    # cleaned 2-sütun Excel (cleaned_text, sentiment_value)
+    ├─ embeddings/       # trained models (.model / .vec)
+    ├─ reports/          # evaluations (txt reports)
+    ├─ scripts/
+    │  ├─ preprocess.py  # cleaning + production corpus 
+    │  ├─ train_embeddings.py
+    │  └─ evaluate_embeddings.py
+    └─ corpus_all.txt    # ddomain-tagged composite corpus (carriage return                                   dom<domain>)
+
+4)Operating Steps (End to End):
+  Preprocessing:
+  
+  Each raw dataset was cleaned using preprocess.py with the following options:
+      
+      ```bash
+     python scripts/preprocess.py process \
+        --in data/data_raw/labeled-sentiment.xlsx \
+        --out data/data_clean/labeled-sentiment.xlsx \
+        --text-col text \
+        --label-col sentiment \
+        --scheme tri \
+        --use-stemming \
+        --drop-stops \
+        --strict-filter \
+        --minlen 2
+
+      ```
+In the script above, you need to write 'tri' or 'bin' for the 'scheme' parameter, according to the Excel output.
+
+  Create Domain-tagged(corpus_all.txt):
+  ```bash
+      python scripts/preprocess.py build-corpus-clean \
+      --inputs data/data_clean/labeled-sentiment.xlsx,data/data_clean/                   test__1_.xlsx,data/data_clean/train__3_.xlsx,data/data_clean/train-00000-          of-00001.xlsx,data/data_clean/merged_dataset_CSV__1_.xlsx \
+      --out corpus_all.txt
+  ```
+Train Models:
+  Shared Model: (single model, all domains)
+      ```bash
+        
+        python scripts/train_embeddings.py \
+        --input-txt corpus_all.txt \
+        --algo word2vec \
+        --train-mode shared \
+        --vector-size 300 --window 5 --min-count 3 \
+        --negative 10 --epochs 10 --sg 1
+
+
+        python scripts/train_embeddings.py \
+        --input-txt corpus_all.txt \
+        --algo fasttext \
+        --train-mode shared \
+        --vector-size 300 --window 5 --min-count 3 \
+        --negative 10 --epochs 10 --sg 1 --min-n 3 --max-n 6
+      
+      ```
+    
+  Per-domains model:
+    ```bash
+
+          python scripts/train_embeddings.py \
+          --input-txt corpus_all.txt \
+          --algo word2vec \
+          --train-mode per-domain \
+          --vector-size 300 --window 7 --min-count 2 \
+          --negative 15 --epochs 25 --sg 1
+          
+          python scripts/train_embeddings.py \
+              --input-txt corpus_all.txt \
+              --algo fasttext \
+              --train-mode per-domain \
+              --vector-size 300 --window 7 --min-count 2 \
+              --negative 15 --epochs 25 --sg 1 --min-n 3 --max-n 6
+
+     ```
+  Adapt(shared+fine-tune):
+         ```bash
+              python scripts/train_embeddings.py \
+                --input-txt corpus_all.txt \
+                --algo word2vec \
+                --train-mode adapt \
+                --vector-size 300 --window 5 --min-count 3 \
+                --negative 10 --epochs 10 --sg 1 \
+                --adapt-epochs 3
+          ```
+
+  Evaluate:
+    1)Shared Model Comparison
+    bash```
+      python scripts/evaluate_embeddings.py \
+      --w2v embeddings/word2vec_vs300_win5_mc3_ep10_neg10_shared.model \
+      --ft  embeddings/fasttext_vs300_win5_mc3_ep10_neg10_shared.model \
+      --out reports/eval_shared.txt
+    ```
+    2)Per-Domain/Adapt Comparison:
+    bash```
+          python scripts/evaluate_embeddings.py \
+          --w2v embeddings/word2vec_vs300_win7_mc2_ep25_neg15_news.model \
+          --ft  embeddings/fasttext_vs300_win7_mc2_ep25_neg15_news.model \
+          --out reports/eval_news_ep25_neg15.txt
+    ```
+    
 
  ### Conclusion (Detailed):
+ 
+     
   
  The enhanced NLP pipeline developed in this study demonstrated clear and measurable improvements  
  over the baseline implementation, both in *semantic coherence* and *morphological generalization*.  
