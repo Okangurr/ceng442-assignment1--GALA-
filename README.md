@@ -1,7 +1,8 @@
 #  Azerbaijani Domain-Aware Word Embedding Project
 
 ---
-
+#Embeddings Model Drive Link:https://drive.google.com/file/d/1lFhOj5CVqRB4WpkSpeRd61lHtEGO_d1y/view?usp=drive_link
+Please download the embeddings file in the drive link to your project directory!
 ## 1️-Data & Goal:
 
 - *Goal:* The purpose of this NLP project is to learn and properly understand the preprocessing pipeline for Azerbaijani texts and sentences, and to build domain-aware Word2Vec and FastText models. The project also aims to observe how the Lexical Coverage, Synonym, Antonym, and Separation scores of these models change based on the additional functions we implement in our preprocessing flow (e.g., negation scope, stemming, lemmatization, etc.), the hyperparameter tuning during model training (e.g., epochs, negative, vector-size, etc.), and domain-awareness. Ultimately, the objective is to fully comprehend the entire Preprocessing-Train-Analysis pipeline of an NLP project.
