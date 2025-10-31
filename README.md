@@ -102,8 +102,8 @@ By doing this, we tried to look at how the model learns differently, and how fin
 > The *shared* models capture global semantics,  
 > while *per-domain* and *adapt* variants specialize in local linguistic patterns.
 >
->##  4️ Quantitative Results
-
+>
+##  4️ Quantitative Results
 ### 4.1 Lexical Coverage and Similarity
 
 | Domain | Synonyms<br>(W2V / FT) | Antonyms<br>(W2V / FT) | Separation<br>(Syn−Ant)<br>(W2V / FT) | Coverage | Observation |
