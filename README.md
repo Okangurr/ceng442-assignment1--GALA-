@@ -228,6 +228,10 @@ By doing this, we tried to look at how the model learns differently, and how fin
 | *Optimal Training Setup* | vector_size=300, window=7, min_count=2, negative=15, epochs=25 |
 | *Preprocessing Impact* | ~70% reduction in OOV terms; improved word clustering consistency |
 
+Next Steps:
+
+Future work may extend this study by exploring transformer-based embeddings (BERT, RoBERTa) trained or adapted for Azerbaijani, and integrating automatic domain detection or sentiment-aware fine-tuning to further enhance both semantic precision and cross-domain generalization.
+
 ---
 
 
