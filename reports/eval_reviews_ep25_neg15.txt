@@ -1,0 +1,37 @@
+== Lexical coverage per dataset ==
+labeled-sentiment.xlsx            W2V(vocab)=0.605  FT(vocab)=0.605
+test__1_.xlsx                     W2V(vocab)=0.619  FT(vocab)=0.619
+train__3_.xlsx                    W2V(vocab)=0.611  FT(vocab)=0.611
+train-00000-of-00001.xlsx         W2V(vocab)=0.600  FT(vocab)=0.600
+merged_dataset_CSV__1_.xlsx       W2V(vocab)=0.647  FT(vocab)=0.647
+
+== Similarity (higher better for synonyms; lower better for antonyms) ==
+Synonyms : W2V=0.256  FT=0.278
+Antonyms : W2V=0.291  FT=0.341
+Separation (Syn - Ant): W2V=-0.035  FT=-0.063
+
+== Nearest neighbors (qualitative) ==
+ W2V NN for 'yaxşı': ['gizlədilmiş', 'süjet', 'operativdi', 'çixar', 'dedektivin']
+  FT NN for 'yaxşı': ['yaxşıya', 'yaxşıca', 'yaxşıydı', 'yaxşıki', 'yaxşılıq']
+ W2V NN for 'pis': ['çatmırki', 'əlimizdə', 'halını', 'bildirmirəm', 'artırım']
+  FT NN for 'pis': ['pisə', 'pisss', 'pisik', 'çönür', 'pin']
+ W2V NN for 'çox': []
+  FT NN for 'çox': ['çoxx', 'çoxlug', 'çoxxx', 'çoxluq', 'çoxlu']
+ W2V NN for 'bahalı': ['tokiodur', 'paytaxtı', 'qiymetlerine', 'ölkeye', 'nümayəndələrə']
+  FT NN for 'bahalı': ['bahaligi', 'əhalı', 'bahalıdır', 'bahalaşsın', 'bahalaşır']
+ W2V NN for 'ucuz': ['yararlanarlar', 'alirdi', 'insanlarımız', 'ortamında', 'formalaşan']
+  FT NN for 'ucuz': ['ucuza', 'ucuzlaşır', 'ucuzdu', 'ucuzlaşma', 'ucuz_NEG']
+ W2V NN for 'mükəmməl': ['zondlardır', 'kəşflərindəndir', 'atabil', 'dəyərləndirmə', 'bəşəriyyətin']
+  FT NN for 'mükəmməl': ['mükəmməldi', 'mükəmməldir', 'mükəməl', 'mükəmməlcəsinə', 'vaqif']
+ W2V NN for 'dəhşət': ['şagirdlərə', 'sinfindəki', 'repititor', 'uşağa', 'özlərini']
+  FT NN for 'dəhşət': ['dəhşətdie', 'dəhşətli', 'dəhşətdir', 'baçdansovdu', 'tikilən']
+ W2V NN for 'PRICE': []
+  FT NN for 'PRICE': ['SERVICE_ISSUE', 'qəçreş', 'gozletdi', 'nalayiq', 'talonu']
+ W2V NN for 'RATING_POS': ['ela', 'gözlüyürəm', 'davanı', 'versə', 'superi']
+  FT NN for 'RATING_POS': ['RATING_NEG', 'wick', 'john', 'vilka', 'qashig']
+ W2V NN for 'RATING_NEG': ['rəqəmlərdir', 'bərad', 'göstərməyiblər', 'ping', 'cavabdehlik']
+  FT NN for 'RATING_NEG': ['RATING_POS', 'mb_NEG', 'düzgün_NEG', 'şey_NEG', 'tv_NEG']
+ W2V NN for 'ulduz': ['qazanc', 'nankordur', 'haqsız', 'd', 'başdanxarab']
+  FT NN for 'ulduz': ['ulduzz', 'ulduzfa', 'ulduzdu', 'pulduz', 'ulduzuda']
+ W2V NN for 'Bakı': []
+  FT NN for 'Bakı': ['kı', 'soldakı', 'bortdakı', 'bakıdakı', 'sumkamdakı']

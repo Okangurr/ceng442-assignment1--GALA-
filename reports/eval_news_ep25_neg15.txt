@@ -1,0 +1,37 @@
+== Lexical coverage per dataset ==
+labeled-sentiment.xlsx            W2V(vocab)=0.445  FT(vocab)=0.445
+test__1_.xlsx                     W2V(vocab)=0.420  FT(vocab)=0.420
+train__3_.xlsx                    W2V(vocab)=0.418  FT(vocab)=0.418
+train-00000-of-00001.xlsx         W2V(vocab)=0.414  FT(vocab)=0.414
+merged_dataset_CSV__1_.xlsx       W2V(vocab)=0.461  FT(vocab)=0.461
+
+== Similarity (higher better for synonyms; lower better for antonyms) ==
+Synonyms : W2V=0.235  FT=0.391
+Antonyms : W2V=0.365  FT=0.475
+Separation (Syn - Ant): W2V=-0.130  FT=-0.084
+
+== Nearest neighbors (qualitative) ==
+ W2V NN for 'yaxşı': ['işlədir', 'expressbank', 'yuxuları', 'ifadələr', 'danışmaq']
+  FT NN for 'yaxşı': ['yaxşıdı', 'yaxşıdır', 'yaxud', 'expressbank', 'yadıma']
+ W2V NN for 'pis': ['şirkətiniz', 'isiqlandirma', 'işləyirdi', 'donma', 'aydır']
+  FT NN for 'pis': ['vapse', 'heçkimə', 'isiqlandirma', 'administratoru', 'milləti']
+ W2V NN for 'çox': []
+  FT NN for 'çox': ['çoxu', 'çoxdu', 'çoox', 'çoxdannan', 'çoxdandı']
+ W2V NN for 'bahalı': []
+  FT NN for 'bahalı': ['baha', 'ümümi', 'zəkalı', 'birmənalı', 'üçünsə']
+ W2V NN for 'ucuz': []
+  FT NN for 'ucuz': ['ucun', 'oz', 'gorun', 'oparatorun', 'mesuliyyetsiz']
+ W2V NN for 'mükəmməl': []
+  FT NN for 'mükəmməl': ['müvafiq', 'mühüm', 'mükafatlandırılıb', 'məmmədov', 'yanğınsöndürənlər']
+ W2V NN for 'dəhşət': []
+  FT NN for 'dəhşət': ['müsbət', 'dəvət', 'xət', 'durduq', 'vilayət']
+ W2V NN for 'PRICE': []
+  FT NN for 'PRICE': ['SERVICE_ISSUE', 'wifi', 'adekvat', 'boyda', 'hek']
+ W2V NN for 'RATING_POS': ['gözləmək', 'aralığı', 'saatında', 'idni', 'bəyəndim']
+  FT NN for 'RATING_POS': ['aralığı', 'RATING_NEG', 'bəyəndim', 'fəallığı', 'tətbiqdir']
+ W2V NN for 'RATING_NEG': ['əcəmi', 'paylaşıram', 'xəbəriniz', 'heçkimə', 'qoşulmayın_NEG']
+  FT NN for 'RATING_NEG': ['qoşulmayın_NEG', 'RATING_POS', 'fiber', 'qopdu', 'paylaşıram']
+ W2V NN for 'ulduz': []
+  FT NN for 'ulduz': ['ulduzda', 'ulduzum', 'dələduz', 'düşmür', 'gizlətmədim']
+ W2V NN for 'Bakı': []
+  FT NN for 'Bakı': ['yanindakı', 'parkındakı', 'kı', 'ətrafındakı', 'qarabağdakı']
