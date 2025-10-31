@@ -1,7 +1,7 @@
 #  Azerbaijani Domain-Aware Word Embedding Project
 
 ---
-# Embeddings Model Drive Link:https://drive.google.com/file/d/1lFhOj5CVqRB4WpkSpeRd61lHtEGO_d1y/view?usp=drive_link
+# Embeddings Model Drive Link:https://drive.google.com/drive/folders/1y3tNtc6SIFvbIOmxJ6yonBfd6GHChe3W?usp=sharing
 - Please download the embeddings file in the drive link to your project directory!
 ## 1️-Data & Goal:
 
