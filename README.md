@@ -1,5 +1,6 @@
 #  Azerbaijani Domain-Aware Word Embedding Project
-
+Okan Rıdvan Gür 21050111022 
+Enes Geldi 21050111035
 ---
 # Embeddings Model Drive Link:https://drive.google.com/drive/folders/1y3tNtc6SIFvbIOmxJ6yonBfd6GHChe3W?usp=sharing
 - Please download the embeddings file in the drive link to your project directory!
