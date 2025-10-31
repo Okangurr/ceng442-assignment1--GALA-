@@ -185,7 +185,7 @@ By doing this, we tried to look at how the model learns differently, and how fin
       python3.11 -m venv .venv
       source .venv/bin/activate      # Windows: .venv\Scripts\activate
       
-      # 6 Dependencies
+      ## 6 Dependencies
       pip install --upgrade pip
       pip install -r requirements.txt
       
