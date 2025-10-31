@@ -39,6 +39,13 @@ In the script above, you need to write 'tri' or 'bin' for the 'scheme' parameter
 | Snowball Stemming | Applies the Turkish Snowball Stemmer, adapted for Azerbaijani morphology to unify word variants. |
 | Strict Filter | Keeps only valid Azerbaijani alphabet tokens and special placeholders (`<NUM>`, `URL`, `EMAIL`,`PHONE`,`USER`,`EMO_POS/EMO_NEG` `RATING_POS/NEG`, `STARS_\d_5`, `PRICE`). |
 
+
+>What we actually struggled with here was finding a lemmatizer specific to the Azerbaijani language for our project. We did find Stanza, but we would have needed to install dependencies like PyTorch for the project. Since this would increase both the project overhead and the submission (deployment) overhead, we tried stemming instead, for the sake of learning the process.
+
+This was actually a good experience for us, as we saw the difficulties of stemming. Since Azerbaijani, like Turkish, is an agglutinative (suffix-based) language, we used a stemmer from the Turkish SnowballStemmer. However, we frankly noticed that the stemmer struggled to identify the roots of some words.
+
+Of course, it was still working better than before. Previously, "yaxşıdır" (is good) and "yaxşı" (good) were treated as different tokens and were perceived as having different semantic meanings, making it difficult for the model to place them closely in the vector space. But now, by applying stemming, we have managed to mitigate these problems, at least on the model's side.
+
 > We perform the cleaning of empty data (null, whitespace-only) or duplicate data as follows:
 
 Inside process_file(), we clean the unnecessary index columns (we are actually cleaning an empty column named "Unnamed: 0" that was in one Excel file). And, by using dropna(subset=[text_col]), we delete rows in the text column that are NaN or None.
@@ -53,9 +60,35 @@ Inside process_file(), we clean the unnecessary index columns (we are actually c
 
 By combining the cleaned Excel files, we created corpus_all.txt, each line of which starts with the domain tag (domsocial, domnews, etc.). We will use this corpus_all.txt when training our models.l.
 
+### Domain Aware
+>We implemented the domain-aware adjustments within the detect_domain() function, using a heuristic, keyword-based (rule-based) approach.
 
+Our goal was: To differentiate various domains such as news texts, social texts, or reviews, and to preserve the distinct linguistic features for each domain. This approach was intended to increase the model's understanding of semantics.
 
-###  3️ Training Configurations
+1. news -> apa,trend,azertac,reuters,bloomberg,dha,aa(When official news agency, economic or press sources were mentioned, they were tagged as “news”.)
+2. social -> rt,@,# veya social media emojies(When a tweet, post, or short social message was detected, it was marked as “social.”)
+3. reviews -> azn, manat, qiymət, ulduz, çox yaxşı, çox pis(Sentences containing product/service evaluation, stars or price were determined as "reviews".)
+4. general -> All other texts(Neutral data that did not fit into any domain remained "general".)
+   
+>Domain-aware normalization:
+>After the domain determination was made, we carried out standardization processes by applying special rules for some domains. These are:
+>  Prices Expression,Star Rating,Positive Reviews, Negative Reviews
+>Thanks to these special transformations the model:
+>qiyməti 20 manat amma çox yaxşı xidmət idi -> PRICE amma RATING_POS xidmət idi
+>Notes:
+>
+ We tried to perform domain detection, and for this,    a domain tag like dom<domain(reviews)> is added to the beginning of each line      as   a preparation for training when creating the corpus. corpus_all.txt → We      created this by adding domains over the cleaned data; it contains the separate     domain information and the cleaned version of all sentences.
+
+###  3 Training Embeddings Model:
+We had a few questions here regarding training strategies: These were questions like how domain knowledge affects training, and how parameters affect training. Therefore, we created and briefly tested training modes, and tried to make observations based on them.
+
+1. Shared Mod: All sentences are combined and a single model is trained (domains are removed). Our aim in this mode is to produce general-purpose embeddings suitable for all domains.
+
+2. Per-domain Mod: Each domain is trained as a separate model with its own subset. Our aim is to capture and examine domain-aware semantic density.
+
+3. Adapt (fine-tune) Mod: The Shared model is trained, and then it is continued for a few more epochs with each domain's data. Our aim is to preserve general knowledge while learning domain-specific meanings.
+
+By doing this, we tried to look at how the model learns differently, and how fine-tuning and domains affect this.
 
 |  Model |  Mode |  Vec Size |  Window |  Min Count |  Negative |  SG |  Epochs |  n-gram |  Notes |
 |:--|:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--|
