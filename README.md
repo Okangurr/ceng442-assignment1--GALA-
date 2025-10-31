@@ -93,7 +93,7 @@ By doing this, we tried to look at how the model learns differently, and how fin
 |  Model |  Mode |  Vec Size |  Window |  Min Count |  Negative |  SG |  Epochs |  n-gram |  Notes |
 |:--|:--|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--|
 | *Word2Vec (shared)* | Single global model | 300 | 5 | 3 | 10/15 | 1 | 10/25 | – | Domain tags removed before training |
-| *FastText (shared)* | Same as above | 300 | 5 | 3 | 10 | 1 | 10/15 | 3–6 | Subword-based representation |
+| *FastText (shared)* | Same as above | 300 | 5 | 3 | 10/15 | 1 | 10/25 | 3–6 | Subword-based representation |
 | *W2V / FT (per-domain)* | Separate models per domain | 300 | 7 | 2 | 15 | 1 | 25 | 3–6 | Trained separately for news, social, reviews, general |
 | *W2V / FT (adapt)* | Fine-tuned per-domain | 300 | 5 | 3 | 10 | 1 | 10 + 3 | 3–6 | Continued training from shared model with domain data |
 
